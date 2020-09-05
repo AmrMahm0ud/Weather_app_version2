@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:weather_app_verion2/database/database_helper.dart';
 import 'dart:convert';
 import '../model/weather_model.dart';
 
 
 class WeatherDays extends ChangeNotifier {
+
+  DatabaseHelper helper = DatabaseHelper();
   List<Weather> _weatherDay = [];
 
   List<Weather> get items {
@@ -24,8 +27,14 @@ class WeatherDays extends ChangeNotifier {
       });
       notifyListeners();
       _weatherDay = _loadedWeatherDate;
+    //  debugPrint(_weatherDay.length.toString());
+      _weatherDay.forEach((element) {
+        helper.saveItem(element);
+      });
     } catch (error) {
       throw (error);
     }
   }
 }
+
+

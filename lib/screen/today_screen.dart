@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:weather_app_verion2/model/weather_model.dart';
 import 'package:weather_app_verion2/provider/weather_provider.dart';
 import 'package:weather_app_verion2/screen/seven_days.dart';
 

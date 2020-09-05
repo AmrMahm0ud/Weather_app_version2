@@ -9,7 +9,7 @@ class NextDays extends StatelessWidget {
     List<Weather> _weatherday = Provider.of<WeatherDays>(context).items;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Seven Days Weather"),
+        title: Text("Saven Days Weather"),
         backgroundColor: Colors.red,
       ),
       body: ListView.builder(
