@@ -40,20 +40,31 @@ class DatabaseHelper {
   }
 
    //insertion
-  Future<int> saveItem(Weather item) async {
+  Future<int> saveItem(List<Weather> item) async {
     var dbClient = await db;
-    int res = await dbClient.insert("$tableName", item.toMap(item));
-    print(res.toString());
-    return res;
+    item.forEach((element){
+       dbClient.insert("$tableName", element.toMap(element));
+    });
   }
 
   //Get
   Future<List> getItems() async {
     var dbClient = await db;
-    var result = await dbClient.rawQuery("SELECT * FROM $tableName ");
-    return result.toList();
+    var result = await dbClient.rawQuery("SELECT * FROM $tableName");
+    final List<Weather> _loadedlist = [];
+    // debugPrint(result.length.toString());
+    result.forEach((element) {
+      _loadedlist.add(Weather.fromSql(element));
+    });
+    return _loadedlist;
   }
 
+  Future<int> getCount() async {
+    var dbClient = await db;
+    return Sqflite.firstIntValue(await dbClient.rawQuery(
+        "SELECT COUNT(*) FROM $tableName"
+    ));
+  }
   Future close() async {
     var dbClient = await db;
     return dbClient.close();

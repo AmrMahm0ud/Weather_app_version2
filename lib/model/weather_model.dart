@@ -1,13 +1,14 @@
-
+import 'dart:io';
+import 'dart:math';
 
 class Weather {
   double temp;
   String state;
-  int date;
+  String date;
   Weather(this.date, this.temp, this.state);
 
   Weather.fromMap(Map<String, dynamic> weatherFromMap) {
-    this.temp = weatherFromMap['temp']['max'];
+    this.temp = (((weatherFromMap['temp']['max'])-32)/1.8) ;
     this.state = weatherFromMap['weather'][0]['main'];
     this.date=weatherFromMap['dt'];
    //this.date = DateTime.fromMicrosecondsSinceEpoch(weatherFromMap['dt']);
@@ -21,4 +22,11 @@ class Weather {
 
     return map;
   }
+
+  Weather.fromSql(Map<String , dynamic> weatherFromSql){
+    this.state = weatherFromSql['State'];
+    this.temp = weatherFromSql['temp'];
+    this.date = weatherFromSql['dateCreated'];
+  }
 }
+
