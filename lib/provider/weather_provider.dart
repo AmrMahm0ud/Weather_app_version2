@@ -3,7 +3,6 @@ import 'package:http/http.dart' as http;
 import 'package:weather_app_verion2/database/database_helper.dart';
 import 'dart:convert';
 import '../model/weather_model.dart';
-import 'dart:math';
 
 
 class WeatherDays extends ChangeNotifier {
@@ -22,9 +21,9 @@ class WeatherDays extends ChangeNotifier {
       const url =
           "https://samples.openweathermap.org/data/2.5/forecast/daily?q=M%C3%BCnchen,DE&appid=b6907d289e10d714a6e88b30761fae22";
       final response = await http.get(url);
-      await Future.delayed(Duration(seconds: 5),(){
-        print("sdas");
-      });
+//      await Future.delayed(Duration(seconds: 2),(){
+//        print("sdas");
+//      });
       final extractedData = (json.decode(response.body))['list'] as List<dynamic>;
       final List<Weather> _loadedWeatherDate = [];
 
@@ -33,7 +32,7 @@ class WeatherDays extends ChangeNotifier {
         _loadedWeatherDate.add(Weather.fromMap(element));
       });
       _weatherDay = _loadedWeatherDate;
-       //notifyListeners();
+       notifyListeners();
        var numberOfRow = await helper.getCount();
        if(numberOfRow == 0) {
          debugPrint("hey");
@@ -44,15 +43,19 @@ class WeatherDays extends ChangeNotifier {
       throw (error);
     }
   }
+
   Future<void> saveDataToSql() async {
     await helper.saveItem(_weatherDay);
   }
 
   Future<void> getDataFromSql() async{
    var result = await helper.getItems();
-   for (var value in result) {
-     debugPrint(result[value]);
-   }
+   List<Weather> loadedWeather = [];
+    result.forEach((element) {
+      loadedWeather.add(Weather.fromSql(element));
+    });
+    _weatherDay = loadedWeather;
+    notifyListeners();
   }
 
 

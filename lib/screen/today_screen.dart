@@ -39,7 +39,6 @@ class _WeatherScreenState extends State<WeatherScreen> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                //child: Text('${weather.items[0].date}',
                                 child: Text(
                                   "SunDay",
                                   style: TextStyle(
@@ -52,7 +51,8 @@ class _WeatherScreenState extends State<WeatherScreen> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  '${weather.items[0].temp}',
+                               '${weather.items[0].temp.toStringAsFixed(0)} \u2103' ,
+                                  //'${weather.items[0].temp}',
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 20,

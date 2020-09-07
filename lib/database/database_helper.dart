@@ -35,28 +35,25 @@ class DatabaseHelper {
 
   void _onCreate(Database db, int version) async {
     await db.execute(
-        "CREATE TABLE $tableName(id INTEGER PRIMARY KEY, $columnState TEXT, $columnDateCreated TEXT , $columnTemp TEXT)");
+        "CREATE TABLE $tableName(id INTEGER PRIMARY KEY, $columnState TEXT, $columnDateCreated TEXT , $columnTemp REAL)");
     print("Table is created");
   }
 
    //insertion
   Future<int> saveItem(List<Weather> item) async {
     var dbClient = await db;
-    item.forEach((element){
-       dbClient.insert("$tableName", element.toMap(element));
-    });
+    int res = 0;
+    for (var i = 0 ; i<item.length; i ++ ){
+      res = await dbClient.insert(tableName , item[i].toMap());
+    print("$res weather added");
+    }
   }
 
   //Get
   Future<List> getItems() async {
     var dbClient = await db;
-    var result = await dbClient.rawQuery("SELECT * FROM $tableName");
-    final List<Weather> _loadedlist = [];
-    // debugPrint(result.length.toString());
-    result.forEach((element) {
-      _loadedlist.add(Weather.fromSql(element));
-    });
-    return _loadedlist;
+    var result = await dbClient.rawQuery("SELECT * FROM $tableName ORDER BY $columnId ASC");
+    return result.toList();
   }
 
   Future<int> getCount() async {

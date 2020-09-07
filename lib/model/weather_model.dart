@@ -8,17 +8,17 @@ class Weather {
   Weather(this.date, this.temp, this.state);
 
   Weather.fromMap(Map<String, dynamic> weatherFromMap) {
-    this.temp = (((weatherFromMap['temp']['max'])-32)/1.8) ;
+    this.temp = weatherFromMap['temp']['max'] - 273.15;
     this.state = weatherFromMap['weather'][0]['main'];
     this.date=weatherFromMap['dt'];
    //this.date = DateTime.fromMicrosecondsSinceEpoch(weatherFromMap['dt']);
   }
 
-   Map<String, dynamic> toMap(Weather obj) {
+   Map<String, dynamic> toMap() {
     var map = Map<String, dynamic>();
-    map['State'] = obj.state;
-    map['temp'] = obj.temp;
-    map['dateCreated'] = obj.date;
+    map['State'] = this.state;
+    map['temp'] = this.temp;
+    map['dateCreated'] = this.date;
 
     return map;
   }

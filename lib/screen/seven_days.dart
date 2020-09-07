@@ -25,7 +25,7 @@ class NextDays extends StatelessWidget {
               ),
               title: Text("${_weatherday[index].state}"),
               trailing: Text("${_weatherday[index].date}"),
-              subtitle: Text("${_weatherday[index].temp}"),
+              subtitle: Text("${_weatherday[index].temp.toStringAsFixed(0)} \u2103"),
             ),
           ),
         ),
