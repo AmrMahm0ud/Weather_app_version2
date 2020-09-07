@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:weather_app_verion2/database/database_helper.dart';
 import 'dart:convert';
 import '../model/weather_model.dart';
+import 'package:connectivity/connectivity.dart';
 
 
 class WeatherDays extends ChangeNotifier {
@@ -44,6 +45,15 @@ class WeatherDays extends ChangeNotifier {
     }
   }
 
+  Future<void> fetchData() async {
+    var connenctionResult = await (Connectivity().checkConnectivity());
+    if (connenctionResult == ConnectivityResult .mobile || connenctionResult == ConnectivityResult.wifi) {
+      return fetchWeatherData();
+    }else if (connenctionResult == ConnectivityResult.none){
+      return getDataFromSql();
+    }
+  }
+
   Future<void> saveDataToSql() async {
     await helper.saveItem(_weatherDay);
   }
@@ -57,8 +67,6 @@ class WeatherDays extends ChangeNotifier {
     _weatherDay = loadedWeather;
     notifyListeners();
   }
-
-
 }
 
 

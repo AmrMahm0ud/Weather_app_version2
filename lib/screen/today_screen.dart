@@ -18,7 +18,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
         children: [
           FutureBuilder(
             future: Provider.of<WeatherDays>(context, listen: false)
-                .fetchWeatherData(),
+                .fetchData(),
             builder: (ctx, snapShot) =>
                 snapShot.connectionState == ConnectionState.waiting
                     ? Container(
